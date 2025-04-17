@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -8,4 +8,5 @@ def hello_world(request):
 
 urlpatterns = [
     path('', hello_world),
+    path('users/', include('users.urls')),
 ]
