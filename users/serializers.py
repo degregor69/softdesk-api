@@ -28,3 +28,7 @@ class UserCreateResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email", "birth_date"]
+
+
+class UserDeleteResponseSerializer(serializers.Serializer):
+    deleted_user = serializers.CharField(max_length=255)

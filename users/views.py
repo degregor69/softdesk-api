@@ -14,3 +14,11 @@ class UserViewSet(viewsets.ModelViewSet):
             user = serializer.save() # This line calls the create method of the serializer
             return Response(UserCreateResponseSerializer(user).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.delete()
+        return Response(
+            {"deleted_user": user.username},
+            status=status.HTTP_204_NO_CONTENT
+        )
