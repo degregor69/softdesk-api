@@ -1,29 +1,16 @@
-from rest_framework.views import APIView
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import AllowAny
-from rest_framework import generics
-
-from .models import User
-from .serializers import UserSignupSerializer
+from users.models import User
+from .serializers import UserSerializer, UserCreateResponseSerializer
 
 
-class SignupView(APIView):
-    permission_classes = [AllowAny]
-
-    @staticmethod
-    def post(request):
-        serializer = UserSignupSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response(
-                {"message": "Utilisateur créé avec succès."},
-                status=status.HTTP_201_CREATED
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-class UserUpdateView(generics.RetrieveUpdateAPIView):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSignupSerializer
+    serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save() # This line calls the create method of the serializer
+            return Response(UserCreateResponseSerializer(user).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
