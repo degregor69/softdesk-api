@@ -3,13 +3,23 @@ from users.models import User
 
 
 class UserSignupSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ["username", "email", "password", "birth_date", "can_be_contacted", "can_data_be_shared"]
         extra_kwargs = {"password": {"write_only": True}}
 
-    def validate_age(self, value):
-        if value < 15:
-            raise serializers.ValidationError("Vous devez avoir au moins 15 ans.")
-        return value
+    def create(self, validated_data: dict):
+        password = validated_data.pop("password")
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)
+        instance.save()
+        return instance
