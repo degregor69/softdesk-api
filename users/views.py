@@ -1,6 +1,5 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated  # Pour vérifier si l'utilisateur est authentifié
 from users.models import User
 from .serializers import UserSerializer, UserCreateResponseSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
