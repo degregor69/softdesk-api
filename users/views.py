@@ -3,10 +3,16 @@ from rest_framework.response import Response
 from users.models import User
 from .serializers import UserSerializer, UserCreateResponseSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -32,8 +38,7 @@ class UserViewSet(viewsets.ModelViewSet):
             status=status.HTTP_204_NO_CONTENT
         )
 
-    @staticmethod
-    def generate_jwt_token(user):
+    def generate_jwt_token(self, user):
         refresh = RefreshToken.for_user(user)
         return {
             'access': str(refresh.access_token),
