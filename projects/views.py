@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from users.models import User
 from .models import Project
 from contributors.models import Contributor
-from .serializers import ProjectSerializer, ContributorResponseSerializer
+from .serializers import ProjectSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -18,27 +18,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             project = serializer.save(author=request.user)
-
-            Contributor.objects.create(user=request.user, project=project)
-
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-def add_contributor(request, project_id):
-    user_id = request.data.get('user_id')
-    project = Project.objects.get_object_or_404(id=project_id)
-
-    if project.author.id != request.user.id :
-        return Response({"error": "You're not the author of the project. Not allowed."}, status=status.HTTP_405_BAD_REQUEST)
-
-    try:
-        user = User.objects.get_object_or_404(id=user_id)
-    except (User.DoesNotExist):
-        return Response({"error": "User or Project not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    contributor = Contributor.objects.create(user=user, project=project)
-    serializer = ContributorResponseSerializer(contributor)
-
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
