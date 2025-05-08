@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "users",
     "projects",
     "contributors.apps.ContributorsConfig",
-    "issues"
+    "issues",
+    "comments"
 ]
 
 MIDDLEWARE = [
