@@ -13,3 +13,5 @@ class Project(models.Model):
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="projects")
 
+    contributors = models.ManyToManyField(User, through='contributors.Contributor', related_name="projects_contributed")
+
