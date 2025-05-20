@@ -14,3 +14,5 @@ class User(AbstractUser):
     can_be_contacted = models.BooleanField(default=True)
     can_data_be_shared = models.BooleanField(default=False)
     birth_date = models.DateField(validators=[validate_age])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

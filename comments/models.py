@@ -8,3 +8,5 @@ class Comment(models.Model):
     description = models.TextField()
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(Contributor, on_delete=models.SET_NULL, null=True, blank=True, related_name='comments')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
