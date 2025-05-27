@@ -1,6 +1,7 @@
 from rest_framework.permissions import BasePermission
 from contributors.models import Contributor
 
+
 class IsProjectContributor(BasePermission):
 
     def has_permission(self, request, view):

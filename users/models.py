@@ -6,9 +6,12 @@ from datetime import date
 
 def validate_age(value):
     today = date.today()
-    age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
+    age = today.year - value.year - \
+        ((today.month, today.day) < (value.month, value.day))
     if age < 15:
-        raise ValidationError("Vous devez avoir au moins 15 ans pour créer un compte.")
+        raise ValidationError(
+            "Vous devez avoir au moins 15 ans pour créer un compte.")
+
 
 class User(AbstractUser):
     can_be_contacted = models.BooleanField(default=True)

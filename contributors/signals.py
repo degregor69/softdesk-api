@@ -3,7 +3,9 @@ from django.dispatch import receiver
 from projects.models import Project
 from contributors.models import Contributor
 
+
 @receiver(post_save, sender=Project)
 def create_author_contributor(sender, instance, created, **kwargs):
     if created:
-        Contributor.objects.get_or_create(user=instance.author, project=instance)
+        Contributor.objects.get_or_create(
+            user=instance.author, project=instance)

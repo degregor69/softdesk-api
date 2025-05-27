@@ -7,9 +7,11 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView
 )
 
+
 @api_view(['GET'])
 def hello_world(request):
     return Response({"message": "Hello, SoftDesk API!"})
+
 
 urlpatterns = [
     path('', hello_world),

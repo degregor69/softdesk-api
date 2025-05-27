@@ -28,7 +28,8 @@ def add_contributor(request):
 
     user = get_object_or_404(User, id=user_id)
 
-    contributor, created = Contributor.objects.get_or_create(user=user, project=project)
+    contributor, created = Contributor.objects.get_or_create(
+        user=user, project=project)
     serializer = ContributorResponseSerializer(contributor)
 
     return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
