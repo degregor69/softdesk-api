@@ -3,13 +3,14 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Project
+from .permissions import IsAuthor
 from .serializers import ProjectSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAuthor]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
