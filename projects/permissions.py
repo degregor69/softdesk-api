@@ -18,3 +18,11 @@ class IsProjectContributor(BasePermission):
             user=request.user,
             project_id=project_id
         ).exists()
+
+
+class IsAuthor(BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in ('PUT', 'PATCH', 'DELETE'):
+            return obj.author.user == request.user
+        return True

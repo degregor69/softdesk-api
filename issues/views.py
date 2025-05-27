@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from projects.permissions import IsProjectContributor
+from projects.permissions import IsProjectContributor, IsAuthor
 from .models import Issue
 from .serializers import IssueSerializer
 from projects.models import Project
@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
-    permission_classes = [IsAuthenticated, IsProjectContributor]
+    permission_classes = [IsAuthenticated, IsProjectContributor, IsAuthor]
 
     def perform_create(self, serializer):
         project_id = self.kwargs.get('project_pk')
