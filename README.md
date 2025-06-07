@@ -17,17 +17,28 @@ A secure RESTful API for project, issue, and comment management, built with Djan
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.13+
 - [Poetry](https://python-poetry.org/)
 - Git
 
 ### Setup
 
+
+
 ```bash
 git clone https://github.com/degregor69/softdesk-api.git
-cd softdesk-api
+cd softdesk-api 
+```
+You can create a virtual environment if you want. 
+I personally use pyenv
+
+```bash
+pyenv virtualenv 3.13.3 venv
+pyenv activate venv
+```
+Then continue : 
+```bash
 poetry install
-poetry shell
 python manage.py migrate
 python manage.py runserver
 ```
