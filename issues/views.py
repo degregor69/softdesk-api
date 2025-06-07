@@ -14,6 +14,10 @@ class IssueViewSet(viewsets.ModelViewSet):
     serializer_class = IssueSerializer
     permission_classes = [IsAuthenticated, IsProjectContributor, IsAuthor]
 
+    def get_queryset(self):
+        project_id = self.kwargs.get('project_pk')
+        return Issue.objects.filter(project__id=project_id)
+
     def perform_create(self, serializer):
         project_id = self.kwargs.get('project_pk')
         project = get_object_or_404(Project, pk=project_id)
